@@ -94,6 +94,8 @@ public class SimonController
             listener.onStopInput();
             
             simon.addRandomColor();
+
+            calculateButtonTime();
             
             listener.displayColors(simon.getColors(), milliseconds);
         }
@@ -135,5 +137,18 @@ public class SimonController
     {
         timer.cancel();
         timer.purge();
+    }
+
+    /**
+     * Re-calculates the time that each button should be lit. The more colors, the faster each color is displayed.
+     */
+    private void calculateButtonTime()
+    {
+        milliseconds = 200 - (simon.getColors().size() * 5);
+
+        if(milliseconds < 40)
+        {
+            milliseconds = 40;
+        }
     }
 }
