@@ -128,7 +128,7 @@ public class SimonController
                 timeout();
             }
             
-        }, 30000);
+        }, 10000);
     }
     
     private void stopTimer()
