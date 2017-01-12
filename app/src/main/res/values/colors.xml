@@ -3,8 +3,15 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="background_black">#000</color>
+
     <color name="green_button">#00C957</color>
     <color name="red_button">#C82536</color>
     <color name="blue_button">#00BFFF</color>
     <color name="yellow_button">#EEEE00</color>
+
+    <color name="green_button_pressed">#7FFF00</color>
+    <color name="red_button_pressed">#FF0000</color>
+    <color name="blue_button_pressed">#00FFFF</color>
+    <color name="yellow_button_pressed">#FFFBCC</color>
 </resources>
