@@ -5,6 +5,8 @@
  */
 package com.hugo.simonsays;
 
+import android.util.Log;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -38,11 +40,13 @@ public class SimonController
         
         this.timer = new Timer();
 
-        this.milliseconds = 200;
+        this.milliseconds = 400;
     }
     
     public void startGame()
     {
+        Log.i("EVENT", "Game Start");
+
         simon = new Simon();
         index = 0;
         
@@ -56,6 +60,8 @@ public class SimonController
     
     public void stopGame()
     {
+        Log.i("EVENT", "Game Over");
+
         status = Status.GAMEOVER;
         stopTimer();
         
@@ -65,6 +71,8 @@ public class SimonController
     
     private void timeout()
     {
+        Log.i("EVENT", "Game Timeout");
+
         status = Status.TIMEOUT;
         
         listener.onStopInput();
@@ -112,12 +120,16 @@ public class SimonController
      */
     public void onColorsDisplayed()
     {
+        Log.i("EVENT", "UI has finished displaying colors");
+
         listener.onStartInput();
         startTimer();
     }
     
     private void startTimer()
     {
+        Log.i("EVENT", "Starting timer");
+
         stopTimer();
         
         timer = new Timer();
@@ -144,7 +156,7 @@ public class SimonController
      */
     private void calculateButtonTime()
     {
-        milliseconds = 200 - (simon.getColors().size() * 5);
+        milliseconds = 400 - (simon.getColors().size() * 5);
 
         if(milliseconds < 40)
         {
