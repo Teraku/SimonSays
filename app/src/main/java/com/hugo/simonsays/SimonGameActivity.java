@@ -1,23 +1,27 @@
 package com.hugo.simonsays;
 
+import android.content.DialogInterface;
 import android.graphics.drawable.GradientDrawable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.app.DialogFragment;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
 public class SimonGameActivity extends AppCompatActivity implements SimonListener {
 
     private SimonController simonGame;
+
+    private ScoreDatabase highScoreDB;
 
     private Button greenButton;
     private Button redButton;
@@ -27,6 +31,8 @@ public class SimonGameActivity extends AppCompatActivity implements SimonListene
     private TextView statusText;
 
     private Button startGameButton;
+
+    private String highScoreName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +77,8 @@ public class SimonGameActivity extends AppCompatActivity implements SimonListene
                 v.setVisibility(View.GONE);
             }
         });
+
+        this.highScoreDB = new ScoreDatabase(this);
     }
 
     //Create the menu
@@ -117,6 +125,8 @@ public class SimonGameActivity extends AppCompatActivity implements SimonListene
                 startGameButton.setVisibility(View.VISIBLE);
             }
         });
+
+        checkHighScore(simonGame.getScore());
     }
 
     @Override
@@ -128,6 +138,8 @@ public class SimonGameActivity extends AppCompatActivity implements SimonListene
                 startGameButton.setVisibility(View.VISIBLE);
             }
         });
+
+        checkHighScore(simonGame.getScore());
     }
 
     @Override
@@ -185,7 +197,6 @@ public class SimonGameActivity extends AppCompatActivity implements SimonListene
                     displayColorQueue.queue(new Runnable() {
                         @Override
                         public void run() {
-                            Log.i("UIEvent", "Setting background color to press color");
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -199,13 +210,21 @@ public class SimonGameActivity extends AppCompatActivity implements SimonListene
 
                             }
 
-                            Log.i("UIEvent", "Restoring color");
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     button.setBackgroundResource(originalColor);
                                 }
                             });
+
+                            //Sleep for another 15 milliseconds, to give the buttons some "downtime".
+                            //Otherwise, when the same color flashes twice in a row, the button will stay lit instead of flashing.
+                            try {
+                                Thread.sleep(15);
+                            }
+                            catch(InterruptedException e) {
+
+                            }
                         }
                     });
                 }
@@ -243,6 +262,42 @@ public class SimonGameActivity extends AppCompatActivity implements SimonListene
                 return yellowButton;
             default:
                 throw new RuntimeException("Unsupported color!");
+        }
+    }
+
+    /**
+     * Checks if a score is a new high score. If so, creates a dialog for the user to enter their name.
+     * @param score The score to check and possibly submit.
+     */
+    private void checkHighScore(final int score)
+    {
+        if(highScoreDB.isHighScore(score))
+        {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("New high score!");
+
+            //Set up the text input for the user to enter their name
+            final EditText nameInput = new EditText(this);
+            nameInput.setInputType(InputType.TYPE_CLASS_TEXT);
+            nameInput.setHint("Enter your name");
+            builder.setView(nameInput);
+
+            //Set up OK and cancel buttons
+            builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    highScoreName = nameInput.getText().toString();
+                    highScoreDB.insertHighScore(highScoreName, score);
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+
+            builder.show();
         }
     }
 }

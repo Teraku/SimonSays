@@ -125,6 +125,11 @@ public class SimonController
         listener.onStartInput();
         startTimer();
     }
+
+    public int getScore()
+    {
+        return simon.getColors().size();
+    }
     
     private void startTimer()
     {
