@@ -8,11 +8,13 @@ public class Score
 {
     private String name;
     private int score;
+    private int rank;
 
-    public Score(String name, int score)
+    public Score(String name, int score, int rank)
     {
         this.name = name;
         this.score = score;
+        this.rank = rank;
     }
 
     public String getName()
@@ -23,5 +25,9 @@ public class Score
     public int getScore()
     {
         return this.score;
+    }
+
+    public int getRank(){
+        return this.rank;
     }
 }

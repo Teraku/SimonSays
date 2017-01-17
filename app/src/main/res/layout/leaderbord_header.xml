@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textAlignment="viewStart"
+        android:textColor="@color/background_black"
+        android:text="RANK"
+        android:id="@+id/rankHead"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textAlignment="center"
+        android:textColor="@color/background_black"
+        android:text="NAME"
+        android:id="@+id/nameHead"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textAlignment="viewEnd"
+        android:textColor="@color/background_black"
+        android:text="SCORE"
+        android:id="@+id/scoreHead"/>
+
+</RelativeLayout>

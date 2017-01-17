@@ -4,8 +4,8 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/background_black"
-    android:gravity="center"
-    tools:context=".SimonGameActivity" >
+    tools:context=".SimonGameActivity"
+    android:gravity="center">
 
     <Button
         android:text="Start Game"
@@ -25,7 +25,7 @@
     <GridLayout
         android:id="@+id/buttonsGridView"
         android:layout_width="match_parent"
-        android:layout_height="450dp"
+        android:layout_height="400dp"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"

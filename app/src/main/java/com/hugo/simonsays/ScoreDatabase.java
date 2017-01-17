@@ -38,7 +38,8 @@ public class ScoreDatabase extends SQLiteAssetHelper
         {
             scores.add(new Score(
                     c.getString(c.getColumnIndex("name")),
-                    c.getInt(c.getColumnIndex("score"))
+                    c.getInt(c.getColumnIndex("score")),
+                    c.getInt(c.getColumnIndex("id"))
             ));
             c.moveToNext();
         }

@@ -1,6 +1,7 @@
 package com.hugo.simonsays;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -98,9 +99,11 @@ public class SimonGameActivity extends AppCompatActivity implements SimonListene
             aUsFragment.show(getFragmentManager(), "aboutusDialog");
 
             return true;
+
         } else if (id == R.id.action_setting) {
             //Leaderbord
-
+            Intent lb_intent = new Intent(this, Leaderbord.class);
+            startActivities(new Intent[]{lb_intent});
         }
 
         return super.onOptionsItemSelected(item);
