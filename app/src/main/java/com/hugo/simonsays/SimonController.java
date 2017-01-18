@@ -128,7 +128,7 @@ public class SimonController
 
     public int getScore()
     {
-        return simon.getColors().size();
+        return simon.getColors().size() - 1;
     }
     
     private void startTimer()

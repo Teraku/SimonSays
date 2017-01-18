@@ -44,7 +44,7 @@ public class ScoreAdapter extends ArrayAdapter<Score>{
 
         Score sc = scores.get(position);
 
-        rank.setText(Integer.toString(sc.getRank()));
+        rank.setText(Integer.toString(position + 1));
         name.setText(sc.getName());
         score.setText(Integer.toString(sc.getScore()));
 

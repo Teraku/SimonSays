@@ -38,11 +38,12 @@ public class ScoreDatabase extends SQLiteAssetHelper
         {
             scores.add(new Score(
                     c.getString(c.getColumnIndex("name")),
-                    c.getInt(c.getColumnIndex("score")),
-                    c.getInt(c.getColumnIndex("id"))
+                    c.getInt(c.getColumnIndex("score"))
             ));
             c.moveToNext();
         }
+
+        c.close();
 
         return scores;
     }
@@ -53,25 +54,34 @@ public class ScoreDatabase extends SQLiteAssetHelper
 
         ContentValues content = new ContentValues();
         content.put("name", name);
-        content.put("score", score - 1);
+        content.put("score", score);
 
         try {
-            db.insertOrThrow("highscores", null, content);
+            //Check if this name already exists
+            Cursor c = db.rawQuery("SELECT rowid _id, * FROM highscores WHERE name = ?", new String[]{name});
+            if(c == null || c.getCount() == 0)
+            {
+                db.insertOrThrow("highscores", null, content);
+            }
+            else
+            {
+                db.update("highscores", content, "name = ?", new String[]{name});
+            }
         }
         catch(SQLException e){
             Log.e("ERROR_DB", e.getMessage(), e);
         }
     }
 
-    public boolean isHighScore(int score)
+    public boolean isHighScore(String name, int score)
     {
-        SQLiteDatabase db= getReadableDatabase();
+        SQLiteDatabase db = getReadableDatabase();
 
-        String query = "SELECT rowid _id, * FROM highscores ORDER BY score DESC, id ASC LIMIT 10";
-        Cursor c = db.rawQuery(query, null);
+        String query = "SELECT rowid _id, * FROM highscores WHERE name = ?";
+        Cursor c = db.rawQuery(query, new String[]{name});
 
-        //Check if the high scores DB has less than 10 entries. If so, a score will always be a high score.
-        if(c == null || c.getCount() < 10)
+        //Check if the high scores DB does not yet have an entry for this user. If so, the new score will always be a highscore.
+        if(c == null || c.getCount() == 0)
         {
             return true;
         }
@@ -80,10 +90,12 @@ public class ScoreDatabase extends SQLiteAssetHelper
 
         if(c.getInt(c.getColumnIndex("score")) < score)
         {
+            c.close();
             return true;
         }
         else
         {
+            c.close();
             return false;
         }
     }

@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -35,6 +36,8 @@ public class SimonGameActivity extends AppCompatActivity implements SimonListene
     private Button startGameButton;
 
     private String highScoreName;
+
+    private String playerName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +67,7 @@ public class SimonGameActivity extends AppCompatActivity implements SimonListene
             @Override
             public void onClick(View v) {
                 simonGame.inputColor((Color) v.getTag(R.id.TAG_COLOR));
-                scoreText.setText("Score: " + Integer.toString(simonGame.getScore()-1));
+                scoreText.setText("Score: " + Integer.toString(simonGame.getScore()));
             }
         };
 
@@ -77,8 +80,7 @@ public class SimonGameActivity extends AppCompatActivity implements SimonListene
         startGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                simonGame.startGame();
-                v.setVisibility(View.GONE);
+                openNameDialog();
             }
         });
 
@@ -272,38 +274,53 @@ public class SimonGameActivity extends AppCompatActivity implements SimonListene
     }
 
     /**
-     * Checks if a score is a new high score. If so, creates a dialog for the user to enter their name.
+     * Checks if a score is a new high score. If so, tells the database to insert/update the score, and shows a toast to the user.
      * @param score The score to check and possibly submit.
+     * @param
      */
     private void checkHighScore(final int score)
     {
-        if(highScoreDB.isHighScore(score))
+        if(highScoreDB.isHighScore(playerName, score))
         {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("New high score!" + " Score: " + Integer.toString(simonGame.getScore()-1));
-
-            //Set up the text input for the user to enter their name
-            final EditText nameInput = new EditText(this);
-            nameInput.setInputType(InputType.TYPE_CLASS_TEXT);
-            nameInput.setHint("Enter your name");
-            builder.setView(nameInput);
-
-            //Set up OK and cancel buttons
-            builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+            highScoreDB.insertHighScore(playerName, score);
+            runOnUiThread(new Runnable()
+            {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    highScoreName = nameInput.getText().toString();
-                    highScoreDB.insertHighScore(highScoreName, score);
+                public void run()
+                {
+                    Toast.makeText(SimonGameActivity.this, "You got a new high score!", Toast.LENGTH_SHORT).show();
                 }
             });
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
-
-            builder.show();
         }
+    }
+
+    private void openNameDialog()
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Please enter your name");
+
+        //Set up the text input for the user to enter their name
+        final EditText nameInput = new EditText(this);
+        nameInput.setInputType(InputType.TYPE_CLASS_TEXT);
+        nameInput.setHint("Name");
+        builder.setView(nameInput);
+
+        //Set up OK and cancel buttons
+        builder.setPositiveButton("Start", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                playerName = nameInput.getText().toString();
+                startGameButton.setVisibility(View.GONE);
+                simonGame.startGame();
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        builder.show();
     }
 }
