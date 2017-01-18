@@ -2,13 +2,10 @@ package com.hugo.simonsays;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ListView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Leaderbord extends AppCompatActivity {
 

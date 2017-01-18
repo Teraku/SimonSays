@@ -23,4 +23,5 @@ public interface SimonListener
     void displayColors(ArrayList<Color> colors, float millisecondsPerColor);
 
     void displayAnimation();
+    void stopAnim();
 }

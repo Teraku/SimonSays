@@ -58,6 +58,7 @@ public class SimonController
         status = Status.PLAYING;
         
         listener.displayColors(simon.getColors(), milliseconds);
+
     }
     
     public void stopGame()
@@ -68,7 +69,7 @@ public class SimonController
         stopTimer();
         
         listener.onStopInput();
-        listener.onGameStop();  
+        listener.onGameStop();
     }
     
     private void timeout()

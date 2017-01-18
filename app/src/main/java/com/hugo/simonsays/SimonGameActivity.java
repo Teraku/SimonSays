@@ -1,7 +1,5 @@
 package com.hugo.simonsays;
 
-import android.animation.ArgbEvaluator;
-import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
@@ -122,6 +120,7 @@ public class SimonGameActivity extends AppCompatActivity implements SimonListene
             @Override
             public void run() {
                 statusText.setText("Playing");
+                stopAnim();
             }
         });
     }
@@ -133,6 +132,7 @@ public class SimonGameActivity extends AppCompatActivity implements SimonListene
             public void run() {
                 statusText.setText("Game over! You made a mistake.");
                 startGameButton.setVisibility(View.VISIBLE);
+                displayAnimation();
             }
         });
 
@@ -146,6 +146,7 @@ public class SimonGameActivity extends AppCompatActivity implements SimonListene
             public void run() {
                 statusText.setText("Game over! You ran out of time.");
                 startGameButton.setVisibility(View.VISIBLE);
+                displayAnimation();
             }
         });
 
@@ -277,13 +278,23 @@ public class SimonGameActivity extends AppCompatActivity implements SimonListene
 
     //Animation for the attract mode
     public void displayAnimation(){
-        //Attractmode
         Animation shake = AnimationUtils.loadAnimation(this, R.anim.attract_anim);
+        //Start Animation
         greenButton.startAnimation(shake);
         redButton.startAnimation(shake);
         yellowButton.startAnimation(shake);
         blueButton.startAnimation(shake);
+
     }
+
+    //Stop attract mode
+    public void stopAnim(){
+        greenButton.clearAnimation();
+        redButton.clearAnimation();
+        yellowButton.clearAnimation();
+        blueButton.clearAnimation();
+    }
+
 
     /**
      * Checks if a score is a new high score. If so, tells the database to insert/update the score, and shows a toast to the user.
