@@ -37,7 +37,7 @@ public class ScoreAdapter extends ArrayAdapter<Score>{
         if (lbView == null)
             lbView = inflater.inflate(R.layout.activity_leaderbord, parent, false);
 
-        
+
         TextView name = (TextView)lbView.findViewById(R.id.name);
         TextView score = (TextView)lbView.findViewById(R.id.score);
         TextView rank = (TextView)lbView.findViewById(R.id.rank);

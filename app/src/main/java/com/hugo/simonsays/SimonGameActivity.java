@@ -280,7 +280,7 @@ public class SimonGameActivity extends AppCompatActivity implements SimonListene
         if(highScoreDB.isHighScore(score))
         {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("New high score!");
+            builder.setTitle("New high score!" + " Score: " + Integer.toString(simonGame.getScore()-1));
 
             //Set up the text input for the user to enter their name
             final EditText nameInput = new EditText(this);
