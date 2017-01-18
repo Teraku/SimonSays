@@ -72,9 +72,16 @@ public class SimonGameActivity extends AppCompatActivity implements SimonListene
         };
 
         greenButton.setOnClickListener(simonButtonListener);
+        greenButton.setClickable(false);
+
         redButton.setOnClickListener(simonButtonListener);
+        redButton.setClickable(false);
+
         yellowButton.setOnClickListener(simonButtonListener);
+        yellowButton.setClickable(false);
+
         blueButton.setOnClickListener(simonButtonListener);
+        blueButton.setClickable(false);
 
         startGameButton = (Button) findViewById(R.id.startGameButton);
         startGameButton.setOnClickListener(new View.OnClickListener() {
