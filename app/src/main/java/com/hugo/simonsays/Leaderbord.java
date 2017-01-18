@@ -20,13 +20,16 @@ public class Leaderbord extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.scrore_row);
 
+        //Init database
         ScoreDatabase sc_db = new ScoreDatabase(this);
 
+        //getting scores
         this.score = sc_db.getHighScores();
-
+        
         ScoreAdapter sc_adapter = new ScoreAdapter(this, score);
         scoreList = (ListView)findViewById(R.id.scoreList);
 
+        //Init and setting the header for the layout
         View header = getLayoutInflater().inflate(R.layout.leaderbord_header, null);
         scoreList.addHeaderView(header);
 

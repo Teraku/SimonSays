@@ -30,6 +30,7 @@ public class SimonGameActivity extends AppCompatActivity implements SimonListene
     private Button blueButton;
 
     private TextView statusText;
+    private TextView scoreText;
 
     private Button startGameButton;
 
@@ -54,6 +55,7 @@ public class SimonGameActivity extends AppCompatActivity implements SimonListene
         blueButton.setTag(R.id.TAG_COLOR, Color.BLUE);
 
         statusText = (TextView) findViewById(R.id.statusTextView);
+        scoreText = (TextView) findViewById(R.id.currentScoreTextView);
 
         this.simonGame = new SimonController(this);
 
@@ -62,6 +64,7 @@ public class SimonGameActivity extends AppCompatActivity implements SimonListene
             @Override
             public void onClick(View v) {
                 simonGame.inputColor((Color) v.getTag(R.id.TAG_COLOR));
+                scoreText.setText("Score: " + Integer.toString(simonGame.getScore()-1));
             }
         };
 

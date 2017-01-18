@@ -17,8 +17,10 @@ public class AboutUsFragment extends DialogFragment {
 
         AlertDialog.Builder aboutusDialog = new AlertDialog.Builder(getActivity());
 
+        //Set the dialog title
         aboutusDialog.setTitle("About Us");
 
+        //Set the text
         aboutusDialog.setMessage("©Copyright 2017: Danny Tam & Hugo Zink");
 
         return aboutusDialog.create();
