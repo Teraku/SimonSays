@@ -1,23 +1,27 @@
 package com.hugo.simonsays;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.GradientDrawable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.app.DialogFragment;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import static com.hugo.simonsays.Color.BLUE;
 
 public class SimonGameActivity extends AppCompatActivity implements SimonListener {
 
@@ -34,8 +38,6 @@ public class SimonGameActivity extends AppCompatActivity implements SimonListene
     private TextView scoreText;
 
     private Button startGameButton;
-
-    private String highScoreName;
 
     private String playerName;
 
@@ -55,7 +57,7 @@ public class SimonGameActivity extends AppCompatActivity implements SimonListene
         yellowButton.setTag(R.id.TAG_COLOR, Color.YELLOW);
 
         blueButton = (Button) findViewById(R.id.blue_button);
-        blueButton.setTag(R.id.TAG_COLOR, Color.BLUE);
+        blueButton.setTag(R.id.TAG_COLOR, BLUE);
 
         statusText = (TextView) findViewById(R.id.statusTextView);
         scoreText = (TextView) findViewById(R.id.currentScoreTextView);
@@ -271,6 +273,16 @@ public class SimonGameActivity extends AppCompatActivity implements SimonListene
             default:
                 throw new RuntimeException("Unsupported color!");
         }
+    }
+
+    //Animation for the attract mode
+    public void displayAnimation(){
+        //Attractmode
+        Animation shake = AnimationUtils.loadAnimation(this, R.anim.attract_anim);
+        greenButton.startAnimation(shake);
+        redButton.startAnimation(shake);
+        yellowButton.startAnimation(shake);
+        blueButton.startAnimation(shake);
     }
 
     /**

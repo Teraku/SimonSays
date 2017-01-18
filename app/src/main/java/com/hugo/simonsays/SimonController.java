@@ -41,6 +41,8 @@ public class SimonController
         this.timer = new Timer();
 
         this.milliseconds = 400;
+
+        listener.displayAnimation();
     }
     
     public void startGame()
