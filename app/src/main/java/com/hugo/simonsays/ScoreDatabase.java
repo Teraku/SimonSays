@@ -53,7 +53,7 @@ public class ScoreDatabase extends SQLiteAssetHelper
 
         ContentValues content = new ContentValues();
         content.put("name", name);
-        content.put("score", score - 1);
+        content.put("score", score);
 
         try {
             db.insertOrThrow("highscores", null, content);

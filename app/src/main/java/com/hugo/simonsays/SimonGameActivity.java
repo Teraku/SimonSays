@@ -1,22 +1,26 @@
 package com.hugo.simonsays;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.GradientDrawable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.app.DialogFragment;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import static com.hugo.simonsays.Color.BLUE;
 
 public class SimonGameActivity extends AppCompatActivity implements SimonListener {
 
@@ -35,6 +39,7 @@ public class SimonGameActivity extends AppCompatActivity implements SimonListene
     private Button startGameButton;
 
     private String highScoreName;
+    private String theScore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +57,7 @@ public class SimonGameActivity extends AppCompatActivity implements SimonListene
         yellowButton.setTag(R.id.TAG_COLOR, Color.YELLOW);
 
         blueButton = (Button) findViewById(R.id.blue_button);
-        blueButton.setTag(R.id.TAG_COLOR, Color.BLUE);
+        blueButton.setTag(R.id.TAG_COLOR, BLUE);
 
         statusText = (TextView) findViewById(R.id.statusTextView);
         scoreText = (TextView) findViewById(R.id.currentScoreTextView);
@@ -64,7 +69,7 @@ public class SimonGameActivity extends AppCompatActivity implements SimonListene
             @Override
             public void onClick(View v) {
                 simonGame.inputColor((Color) v.getTag(R.id.TAG_COLOR));
-                scoreText.setText("Score: " + Integer.toString(simonGame.getScore()-1));
+                scoreText.setText("Score: " + Integer.toString(simonGame.getScore()));
             }
         };
 
@@ -271,6 +276,16 @@ public class SimonGameActivity extends AppCompatActivity implements SimonListene
         }
     }
 
+    //Animation for the attract mode
+    public void displayAnimation(){
+        //Attractmode
+        Animation shake = AnimationUtils.loadAnimation(this, R.anim.attract_anim);
+        greenButton.startAnimation(shake);
+        redButton.startAnimation(shake);
+        yellowButton.startAnimation(shake);
+        blueButton.startAnimation(shake);
+    }
+
     /**
      * Checks if a score is a new high score. If so, creates a dialog for the user to enter their name.
      * @param score The score to check and possibly submit.
@@ -280,7 +295,7 @@ public class SimonGameActivity extends AppCompatActivity implements SimonListene
         if(highScoreDB.isHighScore(score))
         {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("New high score!" + " Score: " + Integer.toString(simonGame.getScore()-1));
+            builder.setTitle("New high score!" + " Score: " + Integer.toString(simonGame.getScore()));
 
             //Set up the text input for the user to enter their name
             final EditText nameInput = new EditText(this);

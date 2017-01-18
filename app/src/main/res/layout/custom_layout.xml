@@ -5,7 +5,8 @@
     android:orientation="vertical"
     android:background="@color/background_black"
     tools:context=".SimonGameActivity"
-    android:gravity="center">
+    android:gravity="center"
+    android:animateLayoutChanges="true">
 
     <Button
         android:text="Start Game"
